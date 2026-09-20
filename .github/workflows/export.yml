@@ -21,18 +21,26 @@ jobs:
 
       - name: Download Redot Editor & Templates
         run: |
-          # Download Redot Headless Binary
-          wget -q https://github.com -O redot.zip
+          # Use curl -L to correctly follow GitHub's download redirect mirrors
+          curl -L "https://github.com" -o redot.zip
           unzip -q redot.zip
+          
+          # Make the standalone editor binary executable
           mv Redot_v4.3-stable_linux.x86_64 redot_bin
           chmod +x redot_bin
 
-          # Setup Export Templates Directory
+          # Setup and extract export templates directory
           mkdir -p ~/.local/share/redot/export_templates/4.3.stable/
-          wget -q https://github.com -O templates.tpz
-          unzip -q templates.tpz -d ~/.local/share/redot/export_templates/4.3.stable/
-          # Rename/adjust if template folder structure requires it
-          # (Ensure templates match 4.3.stable version expectations)
+          curl -L "https://github.com" -o templates.zip
+          
+          # Extract templates directly into the correct path structure
+          unzip -q templates.zip -d ~/.local/share/redot/export_templates/4.3.stable/
+          
+          # Move files up if the tpz extracted into a nested "templates" folder
+          if [ -d ~/.local/share/redot/export_templates/4.3.stable/templates ]; then
+            mv ~/.local/share/redot/export_templates/4.3.stable/templates/* ~/.local/share/redot/export_templates/4.3.stable/
+            rm -rf ~/.local/share/redot/export_templates/4.3.stable/templates
+          fi
 
       - name: Export Web Build (index)
         run: |
