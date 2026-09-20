@@ -21,25 +21,25 @@ jobs:
 
       - name: Download Redot Editor & Templates
         run: |
-          # Use curl -L to correctly follow GitHub's download redirect mirrors
+          # Download Redot Headless Binary (LTS 26.2 Stable)
           curl -L "https://github.com" -o redot.zip
           unzip -q redot.zip
           
-          # Make the standalone editor binary executable
-          mv Redot_v4.3-stable_linux.x86_64 redot_bin
+          # Rename the extracted binary to our script's shortcut name
+          mv Redot_v26.2-stable_linux_x64 redot_bin
           chmod +x redot_bin
 
-          # Setup and extract export templates directory
-          mkdir -p ~/.local/share/redot/export_templates/4.3.stable/
+          # Setup export templates directory mapping Redot's format
+          mkdir -p ~/.local/share/redot/export_templates/26.2.stable/
           curl -L "https://github.com" -o templates.zip
           
-          # Extract templates directly into the correct path structure
-          unzip -q templates.zip -d ~/.local/share/redot/export_templates/4.3.stable/
+          # Unpack template files into place
+          unzip -q templates.zip -d ~/.local/share/redot/export_templates/26.2.stable/
           
-          # Move files up if the tpz extracted into a nested "templates" folder
-          if [ -d ~/.local/share/redot/export_templates/4.3.stable/templates ]; then
-            mv ~/.local/share/redot/export_templates/4.3.stable/templates/* ~/.local/share/redot/export_templates/4.3.stable/
-            rm -rf ~/.local/share/redot/export_templates/4.3.stable/templates
+          # Adjust internal structures if templates extract nested
+          if [ -d ~/.local/share/redot/export_templates/26.2.stable/templates ]; then
+            mv ~/.local/share/redot/export_templates/26.2.stable/templates/* ~/.local/share/redot/export_templates/26.2.stable/
+            rm -rf ~/.local/share/redot/export_templates/26.2.stable/templates
           fi
 
       - name: Export Web Build (index)
