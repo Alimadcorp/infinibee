@@ -1,0 +1,121 @@
+[gd_scene load_steps=12 format=3 uid="uid://c3401v03x12iq"]
+
+[ext_resource type="Script" uid="uid://1um5widiq6jy" path="res://player.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://c3yr4npj3iec1" path="res://main.gd" id="1_lquwl"]
+[ext_resource type="Texture2D" uid="uid://cexlh8tb57d3u" path="res://player.png" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://dclmndmba4d1h" path="res://trail.gd" id="4_5vw27"]
+[ext_resource type="FontFile" uid="uid://dwq4rkn048hlr" path="res://ARCADECLASSIC.TTF" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://b2ulxm6mje0t6" path="res://label.gd" id="5_272bh"]
+[ext_resource type="Script" uid="uid://dm2fanvfiugn6" path="res://spawners.gd" id="6_7mycd"]
+[ext_resource type="Texture2D" uid="uid://d3te5hsuan3ey" path="res://star.webp" id="6_272bh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0xm2m"]
+radius = 12.0
+
+[sub_resource type="Curve" id="Curve_5vw27"]
+_data = [Vector2(0.07244318, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_272bh"]
+offsets = PackedFloat32Array(0.2791411, 1)
+colors = PackedColorArray(1, 0.53806514, 0.4664766, 0, 1, 0.37461746, 0.30679065, 1)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_lquwl")
+
+[node name="Spawned" type="Node2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+modulate = Color(0.9999997, 0.20066318, 0.14946952, 1)
+z_index = 2
+z_as_relative = false
+position = Vector2(642, 431)
+scale = Vector2(1.745, 1.745)
+script = ExtResource("1_0xm2m")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+scale = Vector2(0.099672295, 0.09967229)
+texture = ExtResource("2_1bvp3")
+
+[node name="CircleShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_0xm2m")
+
+[node name="Line2D" type="Line2D" parent="Player"]
+top_level = true
+width_curve = SubResource("Curve_5vw27")
+gradient = SubResource("Gradient_272bh")
+script = ExtResource("4_5vw27")
+
+[node name="ScoreLabel" type="Label" parent="."]
+modulate = Color(0.6862745, 0.76862746, 1, 0.5137255)
+z_as_relative = false
+offset_left = 4.0
+offset_top = 197.0
+offset_right = 1278.0
+offset_bottom = 523.0
+theme_override_fonts/font = ExtResource("4_7mycd")
+theme_override_font_sizes/font_size = 156
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="SafeAreaContainer" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SafeAreaContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="UI/SafeAreaContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("4_7mycd")
+theme_override_font_sizes/font_size = 31
+text = "Hold  spacebar/LMB/SCREEN  to  control"
+script = ExtResource("5_272bh")
+
+[node name="Label2" type="Label" parent="UI/SafeAreaContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("4_7mycd")
+theme_override_font_sizes/font_size = 31
+text = "Avoid asteroids"
+script = ExtResource("5_272bh")
+
+[node name="Spawners" type="Node2D" parent="."]
+position = Vector2(641, 356)
+script = ExtResource("6_7mycd")
+
+[node name="1" type="Node2D" parent="Spawners"]
+position = Vector2(791, -66)
+
+[node name="2" type="Node2D" parent="Spawners"]
+position = Vector2(-780, 135)
+
+[node name="3" type="Node2D" parent="Spawners"]
+position = Vector2(-438, 855)
+
+[node name="4" type="Node2D" parent="Spawners"]
+position = Vector2(231, -907)
+
+[node name="5" type="Node2D" parent="Spawners"]
+position = Vector2(735, 663)
+
+[node name="Star" type="Sprite2D" parent="."]
+modulate = Color(0.53171283, 0.5317128, 0.53171283, 1)
+z_index = -1
+texture_repeat = 2
+position = Vector2(653, 360)
+scale = Vector2(4.8418803, 4.8418803)
+texture = ExtResource("6_272bh")

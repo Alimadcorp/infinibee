@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dalvnhigdkjwc"]
+
+[ext_resource type="Script" uid="uid://o3g3urfjfxk" path="res://enemy.gd" id="1_4gyqm"]
+[ext_resource type="Texture2D" uid="uid://b53mb3676rrvq" path="res://enem.png" id="1_7k104"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4gyqm"]
+points = PackedVector2Array(159.99998, 19.999998, 129.99998, 129.99998, 29.999996, 179.99998, -139.99998, 139.99998, -159.99998, 9.999999, 19.999998, -169.99998, 109.99999, -169.99998, 169.99998, -99.99999)
+
+[node name="Enemy" type="Area2D"]
+z_index = 2
+z_as_relative = false
+script = ExtResource("1_4gyqm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.9073486e-06, 1.9073486e-06)
+scale = Vector2(0.09407216, 0.09407216)
+texture = ExtResource("1_7k104")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.1, 0.1)
+shape = SubResource("ConvexPolygonShape2D_4gyqm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
