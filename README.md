@@ -1,5 +1,5 @@
 # Infinibee
 
-A quick game made by Muhammad Ali
+A short game made by Muhammad Ali
 
-Play at: https://alimad.itch.io/infinibee
+## Play at: https://alimad.itch.io/infinibee
