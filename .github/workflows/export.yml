@@ -1,0 +1,59 @@
+name: "Export Redot Game (Web, Windows, Linux)"
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  export_all:
+    runs-on: ubuntu-latest
+    name: Build All Platforms
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Build Directories
+        run: mkdir -p build/web build/windows build/linux
+
+      - name: Download Redot Editor & Templates
+        run: |
+          # Download Redot Headless Binary
+          wget -q https://github.com -O redot.zip
+          unzip -q redot.zip
+          mv Redot_v4.3-stable_linux.x86_64 redot_bin
+          chmod +x redot_bin
+
+          # Setup Export Templates Directory
+          mkdir -p ~/.local/share/redot/export_templates/4.3.stable/
+          wget -q https://github.com -O templates.tpz
+          unzip -q templates.tpz -d ~/.local/share/redot/export_templates/4.3.stable/
+          # Rename/adjust if template folder structure requires it
+          # (Ensure templates match 4.3.stable version expectations)
+
+      - name: Export Web Build (index)
+        run: |
+          ./redot_bin --headless --export-release "Web" build/web/index.html
+
+      - name: Export Windows Build
+        run: |
+          ./redot_bin --headless --export-release "Windows Desktop" build/windows/game.exe
+
+      - name: Export Linux Build
+        run: |
+          ./redot_bin --headless --export-release "Linux/X11" build/linux/game.x86_64
+
+      - name: Archive and Release Artifacts
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            build/web/*
+            build/windows/*
+            build/linux/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
